@@ -7,12 +7,15 @@
     <link rel="shortcut icon" href="icon/favicon.ico" />
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.statically.io/gh/fysh711426/MiniFormUI/master/layout.css">
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="https://cdn.statically.io/gh/fysh711426/MiniFormUI/master/layout.css" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://fysh711426.github.io/cdn/mini-form-ui/layout.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script src="https://cdn.statically.io/gh/fysh711426/fysh711426.github.io/master/cdn/vue.min.js"></script>
-    <script src="https://cdn.statically.io/gh/fysh711426/MiniFormUI/master/layout.js"></script>
-    <script src="index.js"></script>
-
+    <!-- <script src="https://cdn.statically.io/gh/fysh711426/MiniFormUI/master/layout.js" crossorigin="anonymous"></script> -->
+    <script src="https://fysh711426.github.io/cdn/mini-form-ui/layout.js" crossorigin="anonymous"></script>
+    <script src="functions.js"></script>
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZKLLQXNS6"></script>
     <script>
@@ -29,8 +32,8 @@
             <div class="header-inner">
                 <div class="start">
                     <div class="nav-button">
-                        <button class="nav-button-d" onclick="mini.onNav()"><i class="fa fa-bars"></i></button>
-                        <button class="nav-button-m" onclick="mini.onNavOpen()"><i class="fa fa-bars"></i></button>
+                        <button class="nav-button-d" onclick="$m.onNav()"><i class="fa fa-bars"></i></button>
+                        <button class="nav-button-m" onclick="$m.onNavOpen()"><i class="fa fa-bars"></i></button>
                     </div>
                     <div class="nav-title nologo">
                         <span>Vtuber</span>
@@ -47,133 +50,126 @@
         <div class="container">
             <div class="left-menu active">
                 <div class="left-menu-inner">
-                    <a href="" select-val="a" class="left-menu-item">熱度排行</a>
-                    <a href="" select-val="b" class="left-menu-item">歌回排行</a>
-                    <a href="" select-val="c" class="left-menu-item">訂閱排行</a>
-                    <a href="" select-val="d" class="left-menu-item">成長排行</a>
-                    <a href="" select-val="e" class="left-menu-item">本月新人</a>
+                    <a href="?m=popular" select-val="popular" class="left-menu-item">
+                        <!-- <i class="fa-brands fa-hotjar fa-fw"></i></i> -->熱度排行</a>
+                    <a href="?m=singing" select-val="singing" class="left-menu-item">
+                        <!-- <i class="fa-solid fa-microphone fa-fw"></i> -->歌回排行</a>
+                    <a href="?m=subscribe" select-val="subscribe" class="left-menu-item">
+                        <!-- <i class="fa-solid fa-bell fa-fw"></i> -->訂閱排行</a>
+                    <a href="?m=growing" select-val="growing" class="left-menu-item">
+                        <!-- <i class="fa-solid fa-chart-line fa-fw"></i> -->成長排行</a>
+                    <a href="?m=newcomer" select-val="newcomer" class="left-menu-item">
+                        <!-- <i class="fa-solid fa-user-group fa-fw"></i> -->新人排行</a>
                 </div>
             </div>
-            <div class="left-menu-mask" onclick="mini.onNavClose()"></div>
+            <div class="left-menu-mask" onclick="$m.onNavClose()"></div>
             <div class="main">
                 <div class="main-inner">
                     <div class="sub-menu">
                         <div class="sub-menu-inner">
-                            <a href="" select-val="a" class="sub-menu-item">台灣</a>
-                            <a href="" select-val="b" class="sub-menu-item">Hololive</a>
-                            <a href="" select-val="c" class="sub-menu-item">彩虹社</a>
-                            <a href="" select-val="d" class="sub-menu-item">其他</a>
+                            <a :href="'?m='+menu+'&s=tw'" select-val="tw" class="sub-menu-item">台灣</a>
+                            <a :href="'?m='+menu+'&s=hololive'" select-val="hololive" class="sub-menu-item">Hololive</a>
+                            <a :href="'?m='+menu+'&s=anycolor'" select-val="anycolor" class="sub-menu-item">彩虹社</a>
+                            <a :href="'?m='+menu+'&s=other'" select-val="other" class="sub-menu-item">其他</a>
                         </div>
                     </div>
                     <div class="board">
                         <div class="board-header">
-                            <i class="fa-brands fa-hotjar"></i>
-                            熱度排行
+                            <span v-if="menu == 'popular'">
+                                <i class="fa-brands fa-hotjar fa-fw"></i>
+                                熱度排行
+                            </span>
+                            <span v-if="menu == 'subscribe'">
+                                <i class="fa-solid fa-bell fa-fw"></i>
+                                訂閱排行
+                            </span>
+                            <span v-if="menu == 'singing'">
+                                <i class="fa-solid fa-microphone fa-fw"></i>
+                                歌回排行
+                            </span>
+                            <span v-if="menu == 'growing'">
+                                <i class="fa-solid fa-chart-line fa-fw"></i>
+                                成長排行
+                            </span>
+                            <span v-if="menu == 'newcomer'">
+                                <i class="fa-solid fa-user-group fa-fw"></i>
+                                新人排行
+                            </span>
+                            <a v-if="showDay" :href="'?m='+menu+'&s='+submenu+'&d=7'" class="day left" :class="{ active: day==7 }">7天</a>
+                            <a v-if="showDay" :href="'?m='+menu+'&s='+submenu+'&d=30'" class="day right" :class="{ active: day==30 }">30天</a>
                         </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="rank">名次</th>
+                                    <th class="rank">#</th>
                                     <th class="logo"></th>
                                     <th class="name">名稱</th>
-                                    <th class="score">熱度</th>
+                                    <th class="score">
+                                        <span v-if="menu == 'popular'">熱度</span>
+                                        <span v-if="menu == 'singing'">觀看</span>
+                                        <span v-if="menu == 'subscribe'">訂閱</span>
+                                        <span v-if="menu == 'growing'">成長</span>
+                                        <span v-if="menu == 'newcomer'">訂閱</span>
+                                    </th>
                                     <th class="video">影片</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for="item in datas" :key="item.channelUrl">
                                     <td class="rank">
-                                        <span>1</span>
-                                        <div class="rank-var up">
-                                            <i class="fa-solid fa-angle-up"></i>
-                                            <span>10</span>
+                                        <span>{{item.rank}}</span>
+                                        <div v-if="showRankVar">
+                                            <div v-if="item.rankVar > 0" class="rank-var up">
+                                                <i class="fa-solid fa-angle-up"></i>
+                                                <span>{{item.rankVar}}</span>
+                                            </div>
+                                            <div v-if="item.rankVar < 0" class="rank-var down">
+                                                <i class="fa-solid fa-chevron-down"></i>
+                                                <span>{{item.rankVar * -1}}</span>
+                                            </div>
+                                            <div v-if="item.rankVar == 0" class="rank-var desh">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </div>
+                                            <div v-if="item.rankVar == null" class="rank-var new">
+                                                <span>New</span>
+                                            </div>
+                                        </div>
+                                        <div v-if="!showRankVar">
+                                            <div class="rank-var desh">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="logo">
-                                        <div class="logo-warp">
-                                            <img src="https://yt3.ggpht.com/y_VXsJfNp8sTQCB0lFemCleWB-9HpZ9R2pk7wbCOGrvkpFS3Qa1RAXqUVpgb0NNN9_xzWT446A=s176-c-k-c0x00ffffff-no-rj" />
-                                        </div>
+                                        <a :href="item.channelUrl" target="_blank">
+                                            <div class="logo-warp">
+                                                <img :src="item.thumbnail" />
+                                            </div>
+                                        </a>
                                     </td>
                                     <td class="name">
-                                        <div class="name-warp">李李鈴蘭</div>
-                                        <div class="tag"># 184K</div>
+                                        <div class="name-warp" :title="item.name">{{item.name}}</div>
+                                        <div class="tag">
+                                            <span>{{item.subscribe}}</span><span>訂閱</span>
+                                        </div>
                                     </td>
-                                    <td class="score">37294</td>
+                                    <td class="score">
+                                        <span>{{item.score}}</span><span v-if="menu == 'growing'">%</span>
+                                    </td>
                                     <td class="video">
-                                        <div class="video-warp">
-                                            <img src="https://i.ytimg.com/vi/rvkMbydTrU0/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAmkHQn4ENwaiERjRLH3PWeDvsqyA" />
-                                            <div class="video-mask"></div>
-                                            <div class="video-view">
-                                                <i class="fa-solid fa-play"></i>
-                                                <span>81K</span>
+                                        <a v-if="item.videoViewCount != '0'" :href="item.videoUrl" :title="item.videoTitle" target="_blank">
+                                            <div class="video-warp">
+                                                <img :src="item.videoThumbnail" />
+                                                <div class="video-mask"></div>
+                                                <div class="video-view">
+                                                    <i class="fa-solid fa-play"></i>
+                                                    <span>{{item.videoViewCount}}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="video-link">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="rank">
-                                        <span>2</span>
-                                        <div class="rank-var down">
-                                            <i class="fa-solid fa-chevron-down"></i>
-                                            <span>5</span>
-                                        </div>
-                                    </td>
-                                    <td class="logo">
-                                        <div class="logo-warp">
-                                            <img src="https://yt3.ggpht.com/__E4VedeoEpLn1OPMqodtM4urz99mFfhilyFzCmJJJ_FnpLr6MdrXrLwPYe7aR7lvkmk3M40Bv4=s176-c-k-c0x00ffffff-no-rj" />
-                                        </div>
-                                    </td>
-                                    <td class="name">
-                                        <div class="name-warp">神稻櫻火</div>
-                                        <div class="tag"># 32K</div>
-                                    </td>
-                                    <td class="score">17804</td>
-                                    <td class="video">
-                                        <div class="video-warp">
-                                            <img src="https://i.ytimg.com/vi/NHReT2XrZmM/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCRHkt4ocXKsiXJo47Rmf_uo5eVkw" />
-                                            <div class="video-mask"></div>
-                                            <div class="video-view">
-                                                <i class="fa-solid fa-play"></i>
-                                                <span>83K</span>
+                                            <div class="video-link">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </div>
-                                        </div>
-                                        <div class="video-link">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="rank">
-                                        <span>3</span>
-                                        <div class="rank-var new">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </div>
-                                    </td>
-                                    <td class="logo">
-                                        <div class="logo-warp">
-                                            <img src="https://yt3.ggpht.com/LmqWHwQzqspXt0i0FtMHbhLykq-q9aYRKp1GiLwnY7VNl0Jgfukehm4lRJBu80AxsH_LNa4kqA=s176-c-k-c0x00ffffff-no-rj" />
-                                        </div>
-                                    </td>
-                                    <td class="name">
-                                        <div class="name-warp">瑪格麗特·溫特斯</div>
-                                        <div class="tag"># 36K</div>
-                                    </td>
-                                    <td class="score">12488</td>
-                                    <td class="video">
-                                        <div class="video-warp">
-                                            <img src="https://i.ytimg.com/vi/D_mhJlWgAsY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCyfTY4RjdI0-EtqtY2D36btSnSxQ" />
-                                            <div class="video-mask"></div>
-                                            <div class="video-view">
-                                                <i class="fa-solid fa-play"></i>
-                                                <span>53K</span>
-                                            </div>
-                                        </div>
-                                        <div class="video-link">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </div>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -188,10 +184,7 @@
             </div> -->
         </div>
     </div>
-    <script>
-        mini.selectMenu('a');
-        mini.selectSubMenu('a');
-    </script>
+    <script src="index.js"></script>
 </body>
 
 </html>

@@ -85,9 +85,13 @@ td.rank  {
     color: #e44141;
 }
 
-.rank-var.new {
+.rank-var.desh {
     font-size: 0.5rem;
-    line-height: 0.9rem;
+}
+
+.rank-var.new {
+    font-size: 0.8rem;
+    color: #4d9612;
 }
 
 .logo {
@@ -154,6 +158,10 @@ td.rank  {
     width: 25%;
 }
 
+td.score  {
+    font-size: 0.9rem;
+}
+
 .video {
     width: 8.9rem;
 }
@@ -208,13 +216,16 @@ td.rank  {
 
 @media screen and (min-width: 641px) {
     .video {
-        width: 8rem;
+        width: 11rem;
+        max-width: 176px;
     }
 
     .video-warp {
         display: block;
-        height: 4.5rem;
-        width: 8rem;
+        height: 6.18rem;
+        width: 11rem;
+        max-height: 99px;
+        max-width: 176px;
     }
 
     .video-link {
@@ -224,13 +235,16 @@ td.rank  {
 
 @media screen and (min-width: 1025px) {
     .video {
-        width: 8.9rem;
+        width: 14rem;
+        max-width: 224px;
     }
 
     .video-warp {
         display: block;
-        height: 5rem;
-        width: 8.9rem;
+        height: 7.87rem;
+        width: 14rem;
+        max-height: 126px;
+        max-width: 224px;
     }
 
     .video-link {
