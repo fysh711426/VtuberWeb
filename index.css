@@ -148,7 +148,10 @@ td.rank  {
     width: 35%;
 }
 
-.name-warp {
+.name-warp span {
+    display: inline-block;
+    max-width: 100%;
+    line-height: inherit;
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -250,4 +253,47 @@ td.score  {
     .video-link {
         display: none;
     }
+}
+
+.about-content {
+    padding: 16px 32px 32px 32px;
+}
+
+.about-content p.hr {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.about-content a,
+.about-content a:link,
+.about-content a:visited,
+.about-content a:active {
+    color: #0094ff;
+}
+
+.about-content ul {
+    padding-left: 2rem;
+    margin-top: 0px;
+    margin-bottom: 1rem;
+}
+
+.about-content p {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+}
+
+.about-content h1 {
+    padding-bottom: 10px;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.about-content h3 {
+    font-size: 1.25em;
+    margin-top: 24px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
 }

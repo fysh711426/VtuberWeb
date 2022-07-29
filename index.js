@@ -8,10 +8,11 @@ var vm = new Vue({
         day: '',
         showDay: false,
         showRankVar: false,
+        isLoaded: false,
         datas: []
     },
     methods: {
-        init: function () {
+        init: async function () {
             this.menu = getParameter('m') || 'popular';
             this.submenu = getParameter('s') || 'tw';
             if (this.menu === 'popular' || this.menu === 'singing') {
@@ -23,7 +24,9 @@ var vm = new Vue({
             }
             $m.selectMenu(this.menu);
             $m.selectSubMenu(this.submenu);
-            this.getData();
+            $m.tooltip();
+            await this.getData();
+            this.isLoaded = true;
         },
         getApi: function () {
             return this.apiBase + 

@@ -28,7 +28,7 @@
 
 <body>
     <div id="app" class="layout">
-        <div class="header">
+        <div class="header sticky">
             <div class="header-inner">
                 <div class="start">
                     <div class="nav-button">
@@ -42,7 +42,7 @@
                 <div></div>
                 <div class="end">
                     <div class="nav-link">
-                        <a href="">關於本站</a>
+                        <a href="../about.html">關於本站</a>
                     </div>
                 </div>
             </div>
@@ -52,14 +52,14 @@
                 <div class="left-menu-inner">
                     <a href="?m=popular" select-val="popular" class="left-menu-item">
                         <!-- <i class="fa-brands fa-hotjar fa-fw"></i></i> -->熱度排行</a>
-                    <a href="?m=singing" select-val="singing" class="left-menu-item">
-                        <!-- <i class="fa-solid fa-microphone fa-fw"></i> -->歌回排行</a>
                     <a href="?m=subscribe" select-val="subscribe" class="left-menu-item">
                         <!-- <i class="fa-solid fa-bell fa-fw"></i> -->訂閱排行</a>
+                    <a href="?m=singing" select-val="singing" class="left-menu-item">
+                        <!-- <i class="fa-solid fa-microphone fa-fw"></i> -->歌回影片</a>
                     <a href="?m=growing" select-val="growing" class="left-menu-item">
-                        <!-- <i class="fa-solid fa-chart-line fa-fw"></i> -->成長排行</a>
+                        <!-- <i class="fa-solid fa-chart-line fa-fw"></i> -->本周成長</a>
                     <a href="?m=newcomer" select-val="newcomer" class="left-menu-item">
-                        <!-- <i class="fa-solid fa-user-group fa-fw"></i> -->新人排行</a>
+                        <!-- <i class="fa-solid fa-user-group fa-fw"></i> -->本月新人</a>
                 </div>
             </div>
             <div class="left-menu-mask" onclick="$m.onNavClose()"></div>
@@ -73,7 +73,7 @@
                             <a :href="'?m='+menu+'&s=other'" select-val="other" class="sub-menu-item">其他</a>
                         </div>
                     </div>
-                    <div class="board">
+                    <div v-if="isLoaded" class="board">
                         <div class="board-header">
                             <span v-if="menu == 'popular'">
                                 <i class="fa-brands fa-hotjar fa-fw"></i>
@@ -85,22 +85,22 @@
                             </span>
                             <span v-if="menu == 'singing'">
                                 <i class="fa-solid fa-microphone fa-fw"></i>
-                                歌回排行
+                                歌回影片
                             </span>
                             <span v-if="menu == 'growing'">
                                 <i class="fa-solid fa-chart-line fa-fw"></i>
-                                成長排行
+                                本周成長
                             </span>
                             <span v-if="menu == 'newcomer'">
                                 <i class="fa-solid fa-user-group fa-fw"></i>
-                                新人排行
+                                本月新人
                             </span>
                             <a v-if="showDay" :href="'?m='+menu+'&s='+submenu+'&d=7'" class="day left" :class="{ active: day==7 }">7天</a>
                             <a v-if="showDay" :href="'?m='+menu+'&s='+submenu+'&d=30'" class="day right" :class="{ active: day==30 }">30天</a>
                         </div>
                         <table>
                             <thead>
-                                <tr>
+                                <tr v-if="datas.length > 0">
                                     <th class="rank">#</th>
                                     <th class="logo"></th>
                                     <th class="name">名稱</th>
@@ -113,8 +113,11 @@
                                     </th>
                                     <th class="video">影片</th>
                                 </tr>
+                                <tr v-if="datas.length == 0">
+                                    <th colspan="5" class="row-empty">查無資料</th>
+                                </tr>
                             </thead>
-                            <tbody>
+                            <tbody v-if="datas.length > 0">
                                 <tr v-for="item in datas" :key="item.channelUrl">
                                     <td class="rank">
                                         <span>{{item.rank}}</span>
@@ -148,7 +151,9 @@
                                         </a>
                                     </td>
                                     <td class="name">
-                                        <div class="name-warp" :title="item.name">{{item.name}}</div>
+                                        <div class="name-warp">
+                                            <span :title="item.name">{{item.name}}</span>
+                                        </div>
                                         <div class="tag">
                                             <span>{{item.subscribe}}</span><span>訂閱</span>
                                         </div>
