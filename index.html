@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vtuber</title>
+    <title>Vtuber - 資料統計</title>
     <link rel="shortcut icon" href="icon/favicon.ico" />
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
@@ -15,6 +15,7 @@
     <!-- <script src="https://cdn.statically.io/gh/fysh711426/MiniFormUI/master/layout.js" crossorigin="anonymous"></script> -->
     <script src="https://fysh711426.github.io/cdn/mini-form-ui/layout.js" crossorigin="anonymous"></script>
     <script src="functions.js"></script>
+    <script src="title.js"></script>
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QZKLLQXNS6"></script>
@@ -76,23 +77,23 @@
                     <div v-if="isLoaded" class="board">
                         <div class="board-header">
                             <span v-if="menu == 'popular'">
-                                <i class="fa-brands fa-hotjar fa-fw"></i>
+                                <i class="fa-brands fa-hotjar"></i>
                                 熱度排行
                             </span>
                             <span v-if="menu == 'subscribe'">
-                                <i class="fa-solid fa-bell fa-fw"></i>
+                                <i class="fa-solid fa-bell"></i>
                                 訂閱排行
                             </span>
                             <span v-if="menu == 'singing'">
-                                <i class="fa-solid fa-microphone fa-fw"></i>
+                                <i class="fa-solid fa-microphone"></i>
                                 歌回影片
                             </span>
                             <span v-if="menu == 'growing'">
-                                <i class="fa-solid fa-chart-line fa-fw"></i>
+                                <i class="fa-solid fa-chart-line"></i>
                                 本周成長
                             </span>
                             <span v-if="menu == 'newcomer'">
-                                <i class="fa-solid fa-user-group fa-fw"></i>
+                                <i class="fa-solid fa-user-group"></i>
                                 本月新人
                             </span>
                             <a v-if="showDay" :href="'?m='+menu+'&s='+submenu+'&d=7'" class="day left" :class="{ active: day==7 }">7天</a>
@@ -105,11 +106,31 @@
                                     <th class="logo"></th>
                                     <th class="name">名稱</th>
                                     <th class="score">
-                                        <span v-if="menu == 'popular'">熱度</span>
-                                        <span v-if="menu == 'singing'">觀看</span>
-                                        <span v-if="menu == 'subscribe'">訂閱</span>
-                                        <span v-if="menu == 'growing'">成長</span>
-                                        <span v-if="menu == 'newcomer'">訂閱</span>
+                                        <span v-if="menu == 'popular'">熱度
+                                            <span class="tooltip" content="影片觀看中位數">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </span>
+                                        </span>
+                                        <span v-if="menu == 'singing'">觀看
+                                            <span class="tooltip" content="最高觀看歌回影片">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </span>
+                                        </span>
+                                        <span v-if="menu == 'subscribe'">訂閱
+                                            <span class="tooltip" content="30日訂閱排行">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </span>
+                                        </span>
+                                        <span v-if="menu == 'growing'">成長
+                                            <span class="tooltip" content="訂閱成長率">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </span>
+                                        </span>
+                                        <span v-if="menu == 'newcomer'">訂閱
+                                            <span class="tooltip" content="頻道訂閱數">
+                                                <i class="fa-regular fa-circle-question"></i>
+                                            </span>
+                                        </span>
                                     </th>
                                     <th class="video">影片</th>
                                 </tr>
@@ -187,6 +208,11 @@
                     footer
                 </div>
             </div> -->
+            <div class="tooltip-template">
+                <div class="tooltip-block __class__">
+                    <div class="tooltip-inner">__content__</div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="index.js"></script>

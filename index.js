@@ -19,25 +19,28 @@ var vm = new Vue({
                 this.day = getParameter('d') || '7';
                 this.showDay = true;
             }
-            if (this.menu === 'popular' || this.menu === 'subscribe') {
-                this.showRankVar = true;
-            }
+            this.showRankVar = true;
+            // if (this.menu === 'popular' || this.menu === 'subscribe') {
+            //     this.showRankVar = true;
+            // }
             $m.selectMenu(this.menu);
             $m.selectSubMenu(this.submenu);
-            $m.tooltip();
             await this.getData();
             this.isLoaded = true;
+            setTimeout(function () {
+                $m.tooltip('.tooltip');
+            }, 1);
         },
         getApi: function () {
-            return this.apiBase + 
-                this.menu  + '_' + 
+            return this.apiBase +
+                this.menu + '_' +
                 this.submenu + (this.showDay ? '_day' + this.day : '') + '.json';
         },
         getData: async function () {
             var api = this.getApi();
             if (api) {
                 var response = await axios.get(api);
-                this.datas =  response.data;
+                this.datas = response.data;
             }
         }
     },
