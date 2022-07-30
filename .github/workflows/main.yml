@@ -24,7 +24,7 @@ jobs:
           sed -i 's/<base href="\/">/<base href="\/vtuber\/">/g' *.html
           cp -r * ../temp/
           mkdir -p build
-          cp -r ../temp/* ./build/
+          cp -r ../temp/ ./build/
         
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
@@ -35,7 +35,7 @@ jobs:
           branch: master
           git-config-name: fysh711426
           git-config-email: fysh711426@gmail.com
-          target-folder: cdn/vtuber
+          target-folder: vtuber
           commit-message: auto-commit
           force: false
           clean: false
