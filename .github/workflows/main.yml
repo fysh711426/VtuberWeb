@@ -17,14 +17,12 @@ jobs:
       - name: Build
         run: |
           echo "$PWD"
-          mkdir -p ../temp
+          mkdir -p build
           rm -r ./.github/
           rm .gitignore
           rm ./icon/*.png
           sed -i 's/<base href="\/">/<base href="\/vtuber\/">/g' *.html
-          cp -r * ../temp/
-          mkdir -p build
-          cp -r ../temp/ ./build/
+          find -name "*" -not -path "./build/" -exec cp -r "{}" ./build/  \;
         
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
