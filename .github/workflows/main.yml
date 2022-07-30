@@ -22,7 +22,7 @@ jobs:
           rm .gitignore
           rm ./icon/*.png
           sed -i 's/<base href="\/">/<base href="\/vtuber\/">/g' *.html
-          find -name "*" -not -path "./build/" -exec cp -r "{}" ./build/  \;
+          find -name "*" -not -path "*/build/*" -exec cp -r "{}" ./build/  \;
         
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
