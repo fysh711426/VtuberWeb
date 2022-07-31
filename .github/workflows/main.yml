@@ -21,7 +21,6 @@ jobs:
           mkdir -p build
           rm -r ./.github/
           rm .gitignore
-          rm ./icon/*.png
           sed -i 's/<base href="\/">/<base href="\/vtuber\/">/g' *.html
           shopt -s extglob
           cp -r !(build) ./build/
