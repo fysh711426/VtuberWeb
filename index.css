@@ -228,6 +228,10 @@ td.score  {
     width: 8.9rem;
 }
 
+.video-link {
+    cursor: pointer;
+}
+
 .video-warp {
     position: relative;
     height: 5rem;
@@ -275,20 +279,27 @@ td.score  {
     font-size: 0.9rem;
     font-weight: bold;
     max-width: 100%;
-    padding: 5px 5px 0px 5px;
+    padding: 5px 15px 5px 5px;
     text-align: left;
+    transition: width 2000ms cubic-bezier(.19,1,.22,1) 0ms;
+    width: 0px;
+    overflow: hidden;
 }
 
 .video-warp.hover .video-title {
     display: block;
+    overflow: visible;
+    width: 100%;
 }
 
 .video-warp.hover .video-over {
-    display: block;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
     position: absolute;
     z-index: 150;
-    top: -20px;
-    left: -11px;
+    top: -12px;
+    right: -10px;
     padding: 10px;
     background-color: #fff;
     border-radius: 0.35rem;
@@ -305,6 +316,7 @@ td.score  {
 @media screen and (max-width: 640px) {
     .video {
         width: 2rem;
+        height: 6.18rem;
     }
 
     .video-warp {
@@ -313,6 +325,33 @@ td.score  {
 
     .video-link {
         display: block;
+    }
+
+    .video-link.hover {
+        display: none;
+    }
+
+    .video-warp.hover {
+        display: block;
+    }
+
+    .video-warp.hover .video-warp {
+        height: 6.18rem;
+        width: 11rem;
+        max-height: 99px;
+        max-width: 176px;
+    }
+
+    .video-warp.hover .video-thumbnail {
+        display: block;
+        height: 6.18rem;
+        width: 11rem;
+        max-height: 99px;
+        max-width: 176px;
+    }
+
+    .video-warp.hover .video-over {
+        left: -200%;
     }
 }
 
@@ -340,6 +379,10 @@ td.score  {
     .video-link {
         display: none;
     }
+
+    .video-warp.hover .video-over {
+        left: -170%;
+    }
 }
 
 @media screen and (min-width: 1025px) {
@@ -365,6 +408,10 @@ td.score  {
 
     .video-link {
         display: none;
+    }
+
+    .video-warp.hover .video-over {
+        left: -130%;
     }
 }
 

@@ -225,10 +225,9 @@
                                                 <div class="video-title">{{item.videoTitle}}</div>
                                             </div>
                                         </div>
-                                        <div class="video-link">
-                                            <a :href="item.videoUrl" target="_blank">
-                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
+                                        <div class="video-link" @mouseover="onVideoOver(item)"
+                                            :class="{'hover':item.channelUrl==videoOver}">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                         </div>
                                     </td>
                                 </tr>
