@@ -22,6 +22,7 @@
     <script src="https://fysh711426.github.io/mini-form-ui/progress.js" crossorigin="anonymous"></script>
     <script src="https://fysh711426.github.io/mini-form-ui/spinner.js" crossorigin="anonymous"></script>
     <script src="https://fysh711426.github.io/mini-form-ui/layout.js" crossorigin="anonymous"></script>
+    <script src="directive.js"></script>
     <script src="functions.js"></script>
     <script src="title.js"></script>
     
@@ -147,7 +148,7 @@
                                 </tr>
                             </thead>
                             <tbody v-if="datas.length > 0">
-                                <tr v-if="index < showCount" v-for="(item, index) in datas" :key="item.channelUrl">
+                                <tr v-if="index < showCount" v-for="(item, index) in datas" :key="item.id">
                                     <td class="rank">
                                         <span>{{item.rank}}</span>
                                         <div v-if="showRankVar">
@@ -207,7 +208,11 @@
                                         </span>
                                     </td>
                                     <td class="video">
-                                        <a v-if="item.videoViewCount != '0'" :href="item.videoUrl" :title="item.videoTitle" target="_blank">
+                                        <a v-if="item.videoViewCount != '0'" v-mounted="onItemMounted" target="_blank"
+                                            :href="item.videoUrl" :id="'video-tooltip-'+item.id"
+                                            :data-content="item.videoTitle"
+                                            :data-thumbnail="item.videoThumbnail"
+                                            :data-view="item.videoViewCount">
                                             <div class="video-warp">
                                                 <img :src="item.videoThumbnail" />
                                                 <div class="video-mask"></div>
@@ -242,6 +247,21 @@
     <div class="tooltip-template">
         <div class="tooltip-block">
             <div class="tooltip-inner">__data-content__</div>
+        </div>
+    </div>
+    <div class="video-tooltip-template">
+        <div class="tooltip-block video-tooltip-block">
+            <div class="tooltip-inner video-tooltip-inner">
+                <div class="video-warp">
+                    <img src="__data-thumbnail__" />
+                    <div class="video-mask"></div>
+                    <div class="video-view">
+                        <i class="fa-solid fa-play"></i>
+                        <span>__data-view__</span>
+                    </div>
+                </div>
+                <div class="video-title">__data-content__</div>
+            </div>
         </div>
     </div>
     <div class="control">

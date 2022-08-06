@@ -320,6 +320,42 @@ td.score  {
     }
 }
 
+.video-tooltip-template .tooltip-block {
+    display: none;
+}
+
+.video-tooltip-block {
+    font-weight: bold;
+}
+
+.video-tooltip-inner {
+    padding: 10px;
+}
+
+.video-tooltip-inner .video-warp {
+    margin-bottom: 5px;
+    width: 250px;
+    height: 140px;
+    max-width: none;
+    max-height: none;
+}
+
+.video-tooltip-inner .video-title {
+    padding: 0px 5px 0px 5px;
+}
+
+@media screen and (max-width: 640px) {
+    .video-tooltip-inner .video-warp {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .video-tooltip-inner .video-warp {
+        display: none;
+    }
+}
+
 .about-content {
     padding: 16px 32px 32px 32px;
 }
