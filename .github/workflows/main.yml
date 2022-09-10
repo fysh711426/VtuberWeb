@@ -36,5 +36,5 @@ jobs:
           target-folder: vtuber
           commit-message: auto-commit
           force: false
-          clean: false
+          clean: true
           single-commit: true
